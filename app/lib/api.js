@@ -8,25 +8,25 @@ const api = axios.create({
   }
 })
 
-// Add this new function
+// Add this function
 export const checkApiStatus = async () => {
   try {
-    const response = await api.get('/status')
-    return response.data
+    // Try to fetch a single exercise as a health check
+    await api.get('/exercises?limit=1')
+    return true
   } catch (error) {
     console.error('API Status Check Failed:', error)
-    return null
+    return false
   }
 }
 
-// Keep your existing exercises function
-export const fetchExercises = async (page = 1, limit = 10) => {
+export const fetchExercises = async (page = 1, limit = 100) => { // Increased default limit
   try {
     const offset = (page - 1) * limit
     const response = await api.get(`/exercises?limit=${limit}&offset=${offset}`)
     return response.data
   } catch (error) {
-    console.error('Failed to fetch exercises:', error)
+    console.error('API Error:', error)
     throw error
   }
 }

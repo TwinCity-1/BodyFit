@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../../hooks/use-auth'
 import { fetchExercises } from '../../lib/api'
 import Link from 'next/link'
+import { ToastContainer } from 'react-toastify'
 
 export default function ExercisesPage() {
   const { user, saveExercise, removeExercise } = useAuth()
@@ -75,6 +76,7 @@ export default function ExercisesPage() {
   }
 
   if (!user) {
+    <ToastContainer />
     return (
       <div className="p-6 text-center">
         <h2 className="text-xl mb-4">Please login to view exercises</h2>
@@ -86,92 +88,95 @@ export default function ExercisesPage() {
   }
 
   return (
-    <div className="p-6 min-h-screen bg-white">
-      <h1 className="text-3xl font-bold mb-8 text-gray-800">Exercises</h1>
+    <>
+      <ToastContainer />
+      <div className="p-6 min-h-screen bg-white">
+        <h1 className="text-3xl font-bold mb-8 text-gray-800">Exercises</h1>
 
-      {/* Search Bar */}
-      <div className="mb-6">
-        <input
-          type="text"
-          placeholder="Search exercises by name, body part, or target..."
-          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
+        {/* Search Bar */}
+        <div className="mb-6">
+          <input
+            type="text"
+            placeholder="Search exercises by name, body part, or target..."
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
 
-      {error ? (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-          {error}
-        </div>
-      ) : loading ? (
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-600"></div>
-        </div>
-      ) : (
-        <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredExercises.map(exercise => (
-              <div key={exercise.id} className="border rounded-lg p-4 shadow-sm">
-                <h3 className="font-bold text-lg mb-2">{exercise.name}</h3>
-                <p className="text-gray-600 mb-1"><span className="font-semibold">Body Part:</span> {exercise.bodyPart}</p>
-                <p className="text-gray-600 mb-2"><span className="font-semibold">Target:</span> {exercise.target}</p>
-                <div className="flex justify-between">
-                  <button
-                    onClick={() => handleSaveExercise(exercise)}
-                    className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700"
-                  >
-                    Save
-                  </button>
-                  <Link
-                    href={exercise.gifUrl}
-                    target="_blank"
-                    className="px-3 py-1 text-blue-600 hover:underline"
-                  >
-                    View Demo
-                  </Link>
-                </div>
-              </div>
-            ))}
+        {error ? (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            {error}
           </div>
-
-          {/* Pagination */}
-          {filteredExercises.length > 0 && (
-            <div className="mt-8 flex justify-center">
-              <button
-                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                disabled={currentPage === 1}
-                className="px-4 py-2 mx-1 border rounded disabled:opacity-50"
-              >
-                Previous
-              </button>
-              <span className="px-4 py-2 mx-1">Page {currentPage}</span>
-              <button
-                onClick={() => setCurrentPage(p => p + 1)}
-                disabled={filteredExercises.length < itemsPerPage}
-                className="px-4 py-2 mx-1 border rounded disabled:opacity-50"
-              >
-                Next
-              </button>
+        ) : loading ? (
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-600"></div>
+          </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredExercises.map(exercise => (
+                <div key={exercise.id} className="border rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-lg mb-2">{exercise.name}</h3>
+                  <p className="text-gray-600 mb-1"><span className="font-semibold">Body Part:</span> {exercise.bodyPart}</p>
+                  <p className="text-gray-600 mb-2"><span className="font-semibold">Target:</span> {exercise.target}</p>
+                  <div className="flex justify-between">
+                    <button
+                      onClick={() => handleSaveExercise(exercise)}
+                      className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700"
+                    >
+                      Save
+                    </button>
+                    <Link
+                      href={exercise.gifUrl}
+                      target="_blank"
+                      className="px-3 py-1 text-blue-600 hover:underline"
+                    >
+                      View Demo
+                    </Link>
+                  </div>
+                </div>
+              ))}
             </div>
-          )}
 
-          {/* No results message */}
-          {!loading && filteredExercises.length === 0 && (
-            <div className="text-center py-10">
-              <p className="text-lg">No exercises found matching your search.</p>
-              {searchTerm && (
+            {/* Pagination */}
+            {filteredExercises.length > 0 && (
+              <div className="mt-8 flex justify-center">
                 <button
-                  onClick={() => setSearchTerm('')}
-                  className="mt-2 text-blue-600 hover:underline"
+                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                  className="px-4 py-2 mx-1 border rounded disabled:opacity-50"
                 >
-                  Clear search
+                  Previous
                 </button>
-              )}
-            </div>
-          )}
-        </>
-      )}
-    </div>
+                <span className="px-4 py-2 mx-1">Page {currentPage}</span>
+                <button
+                  onClick={() => setCurrentPage(p => p + 1)}
+                  disabled={filteredExercises.length < itemsPerPage}
+                  className="px-4 py-2 mx-1 border rounded disabled:opacity-50"
+                >
+                  Next
+                </button>
+              </div>
+            )}
+
+            {/* No results message */}
+            {!loading && filteredExercises.length === 0 && (
+              <div className="text-center py-10">
+                <p className="text-lg">No exercises found matching your search.</p>
+                {searchTerm && (
+                  <button
+                    onClick={() => setSearchTerm('')}
+                    className="mt-2 text-blue-600 hover:underline"
+                  >
+                    Clear search
+                  </button>
+                )}
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </>
   )
 }

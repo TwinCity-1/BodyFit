@@ -8,6 +8,7 @@ export default function StatusCard({ user, apiStatus, loading }) {
       <h2 className="text-xl font-bold text-primary-dark mb-4">Your Status</h2>
 
       <div className="space-y-4">
+
         <div>
           <h3 className="font-semibold text-gray-700">Account</h3>
           <p className="text-gray-600">{user?.email}</p>

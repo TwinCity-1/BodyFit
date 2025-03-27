@@ -13,6 +13,7 @@ export default function AuthForm({ type }) {
 
   const { login, signup } = useAuth()
 
+
   const onSubmit = (data) => {
     if (type === 'login') {
       login(data.email, data.password)
