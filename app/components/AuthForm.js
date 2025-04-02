@@ -1,8 +1,8 @@
 'use client'
 
 import { useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
 import { useAuth } from '../hooks/use-auth'
+import Link from 'next/link'
 
 export default function AuthForm({ type }) {
   const {
