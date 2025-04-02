@@ -79,8 +79,8 @@ export default function ExercisesPage() {
     <ToastContainer />
     return (
       <div className="p-6 text-center">
-        <h2 className="text-xl mb-4">Please login to view exercises</h2>
-        <Link href="/login" className="text-blue-600 hover:underline">
+        <h2 className="text-xl mb-4 text-black">Please login to view exercises</h2>
+        <Link href="/login" className="text-lime-500 hover:underline">
           Go to Login
         </Link>
       </div>
@@ -90,15 +90,15 @@ export default function ExercisesPage() {
   return (
     <>
       <ToastContainer />
-      <div className="p-6 min-h-screen bg-white">
-        <h1 className="text-3xl font-bold mb-8 text-gray-800">Exercises</h1>
+      <div className="p-6 min-h-screen bg-offwhite">
+        <h1 className="text-3xl font-bold mb-8 text-darkblue">Exercises</h1>
 
         {/* Search Bar */}
         <div className="mb-6">
           <input
             type="text"
             placeholder="Search exercises by name, body part, or target..."
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="w-full p-3 border border-softgray rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-400 bg-white text-black"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -110,27 +110,27 @@ export default function ExercisesPage() {
           </div>
         ) : loading ? (
           <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-600"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-lime-500"></div>
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredExercises.map(exercise => (
-                <div key={exercise.id} className="border rounded-lg p-4 shadow-sm">
-                  <h3 className="font-bold text-lg mb-2">{exercise.name}</h3>
-                  <p className="text-gray-600 mb-1"><span className="font-semibold">Body Part:</span> {exercise.bodyPart}</p>
-                  <p className="text-gray-600 mb-2"><span className="font-semibold">Target:</span> {exercise.target}</p>
+                <div key={exercise.id} className="border border-softgray rounded-lg p-4 shadow-sm bg-white">
+                  <h3 className="font-bold text-lg mb-2 text-black">{exercise.name}</h3>
+                  <p className="text-darkgray mb-1"><span className="font-semibold">Body Part:</span> {exercise.bodyPart}</p>
+                  <p className="text-darkgray mb-2"><span className="font-semibold">Target:</span> {exercise.target}</p>
                   <div className="flex justify-between">
                     <button
                       onClick={() => handleSaveExercise(exercise)}
-                      className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700"
+                      className="px-3 py-1 bg-black text-white rounded hover:bg-darkblue"
                     >
                       Save
                     </button>
                     <Link
                       href={exercise.gifUrl}
                       target="_blank"
-                      className="px-3 py-1 text-blue-600 hover:underline"
+                      className="px-3 py-1 text-lime-500 hover:underline"
                     >
                       View Demo
                     </Link>
@@ -138,42 +138,6 @@ export default function ExercisesPage() {
                 </div>
               ))}
             </div>
-
-            {/* Pagination */}
-            {filteredExercises.length > 0 && (
-              <div className="mt-8 flex justify-center">
-                <button
-                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                  disabled={currentPage === 1}
-                  className="px-4 py-2 mx-1 border rounded disabled:opacity-50"
-                >
-                  Previous
-                </button>
-                <span className="px-4 py-2 mx-1">Page {currentPage}</span>
-                <button
-                  onClick={() => setCurrentPage(p => p + 1)}
-                  disabled={filteredExercises.length < itemsPerPage}
-                  className="px-4 py-2 mx-1 border rounded disabled:opacity-50"
-                >
-                  Next
-                </button>
-              </div>
-            )}
-
-            {/* No results message */}
-            {!loading && filteredExercises.length === 0 && (
-              <div className="text-center py-10">
-                <p className="text-lg">No exercises found matching your search.</p>
-                {searchTerm && (
-                  <button
-                    onClick={() => setSearchTerm('')}
-                    className="mt-2 text-blue-600 hover:underline"
-                  >
-                    Clear search
-                  </button>
-                )}
-              </div>
-            )}
           </>
         )}
       </div>

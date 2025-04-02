@@ -110,7 +110,12 @@ export default function Dashboard() {
           <div className="space-y-4">
             <div>
               <h3 className="font-semibold">Account</h3>
-              <p>{user.email}</p>
+              <div className='flex justify-start'>
+                <p className='pr-15'><strong>Name:</strong> {user.name}</p>
+                <p><strong>Email:</strong> {user.email}</p>
+
+              </div>
+
             </div>
             <div>
               <h3 className="font-semibold">Saved Exercises</h3>
@@ -123,7 +128,7 @@ export default function Dashboard() {
             </div>
 
             {/* Motivational Message */}
-            <div className="mt-4 p-3  bg-opacity-10 rounded-lg">
+            <div className="mt-4 p-3 bg-[#1A1A1A] bg-opacity-10 rounded-lg text-white">
               <p className="font-medium">{getMotivationalMessage()}</p>
             </div>
           </div>
@@ -135,6 +140,10 @@ export default function Dashboard() {
           <p className="mb-4 text-[#EAEAEA]">
             Access over 1,300 exercises with animations and detailed information.
           </p>
+          <p className="mb-4 text-[#EAEAEA]">
+            Quick and realtime search functionality to allow you to find your exercise of choice amoung thousands
+          </p>
+
           <div className="mb-4">
             <h3 className="font-semibold">API Status</h3>
             {loading ? (
@@ -147,7 +156,7 @@ export default function Dashboard() {
           </div>
           <Link
             href="/dashboard/exercises"
-            className="inline-block bg-[#B8E100] text-[#1A1A1A] px-4 py-2 rounded hover:bg-[#C6F560]"
+            className="inline-block mt-2 bg-[#B8E100] text-[#1A1A1A] px-4 py-2 rounded hover:bg-[#C6F560]"
           >
             Browse Exercises
           </Link>
